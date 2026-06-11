@@ -12,13 +12,13 @@ const TopBanner = () => (
   <div className="bg-gray-900 text-white text-xs sm:text-sm py-2 px-4 text-center tracking-wide">
     📍 <span className="font-bold text-yellow-400">Visit Our Store:</span>{' '}
     <a 
-      href="https://maps.google.com/?q=Residency+Road,+Srinagar" 
+      href="https://maps.app.goo.gl/8JMu8z77431gWKP39" 
       target="_blank" 
       rel="noopener noreferrer"
       className="hover:underline hover:text-blue-300 transition cursor-pointer"
       title="Click to open exact location in Google Maps"
     >
-      Residency Road, Srinagar | Open Mon-Sat: 10 AM - 8 PM
+      Mobile Garage, karangi, Akhnoor | Open Mon-Sat: 10 AM - 8 PM
     </a>
   </div>
 );
