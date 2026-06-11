@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const API_BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://mobile-garage-backend.onrender.com'; // Paste your actual Render link here
+
 // --- COMPONENTS ---
 
 const TopBanner = () => (
@@ -89,7 +93,7 @@ const Shop = () => {
   const categories = ['All', 'Smartphones', 'Tablets', 'Accessories'];
 
   const fetchProducts = () => {
-    fetch('http://localhost:5000/api/products')
+    fetch('https://mobile-garage-backend.onrender.com/api/products')
       .then(res => res.json())
       .then(data => { setProducts(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => { setProducts([]); setLoading(false); });
@@ -111,7 +115,7 @@ const Shop = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/book', {
+      const response = await fetch('https://mobile-garage-backend.onrender.com/api/book', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId, productName, customerName, customerPhone })
       });
@@ -129,7 +133,7 @@ const Shop = () => {
   const handleTrackOrders = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch(`http://localhost:5000/api/orders/customer/${trackingPhone}`);
+        const response = await fetch(`https://mobile-garage-backend.onrender.com/api/orders/customer/${trackingPhone}`);
         const data = await response.json();
         setCustomerOrders(data);
     } catch (error) {
@@ -140,7 +144,7 @@ const Shop = () => {
   const handleCancelOrder = async (orderId) => {
       if(window.confirm("Are you sure you want to cancel this order?")) {
           try {
-              const response = await fetch(`http://localhost:5000/api/orders/cancel/${orderId}`, { method: 'DELETE' });
+              const response = await fetch(`https://mobile-garage-backend.onrender.com/api/orders/cancel/${orderId}`, { method: 'DELETE' });
               const data = await response.json();
               alert(data.message);
               setCustomerOrders(customerOrders.filter(o => o._id !== orderId));
@@ -369,11 +373,11 @@ const Admin = () => {
     if (isAuthenticated) {
       const loadData = async () => {
         try {
-          const prodRes = await fetch('http://localhost:5000/api/products');
+          const prodRes = await fetch('https://mobile-garage-backend.onrender.com/api/products');
           const prodData = await prodRes.json();
           setProducts(Array.isArray(prodData) ? prodData : []);
           
-          const ordRes = await fetch('http://localhost:5000/api/orders');
+          const ordRes = await fetch('https://mobile-garage-backend.onrender.com/api/orders');
           const ordData = await ordRes.json();
           setOrders(Array.isArray(ordData) ? ordData : []);
         } catch (e) {
@@ -387,7 +391,7 @@ const Admin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch('https://mobile-garage-backend.onrender.com/api/login', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: passwordInput })
       });
       const data = await response.json();
@@ -399,7 +403,7 @@ const Admin = () => {
   const handleDeleteProduct = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        await fetch(`http://localhost:5000/api/products/${id}`, { method: 'DELETE' });
+        await fetch(`https://mobile-garage-backend.onrender.com/api/products/${id}`, { method: 'DELETE' });
         setProducts(products.filter(p => p._id !== id));
       } catch (err) { alert("Failed to delete"); }
     }
@@ -408,7 +412,7 @@ const Admin = () => {
   const handleCompleteOrder = async (id) => {
     if (window.confirm("Is this pickup complete? This will remove the order from the list.")) {
       try {
-        await fetch(`http://localhost:5000/api/orders/${id}`, { method: 'DELETE' });
+        await fetch(`https://mobile-garage-backend.onrender.com/api/orders/${id}`, { method: 'DELETE' });
         setOrders(orders.filter(o => o._id !== id));
       } catch (err) { alert("Failed to mark complete"); }
     }
@@ -454,8 +458,8 @@ const Admin = () => {
 
     try {
       const url = editingProductId 
-        ? `http://localhost:5000/api/products/${editingProductId}` 
-        : 'http://localhost:5000/api/products';
+        ? `https://mobile-garage-backend.onrender.com/api/products/${editingProductId}` 
+        : 'https://mobile-garage-backend.onrender.com/api/products';
       
       const method = editingProductId ? 'PUT' : 'POST';
 
