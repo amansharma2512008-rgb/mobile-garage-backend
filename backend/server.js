@@ -61,6 +61,11 @@ const orderSchema = new mongoose.Schema({
 });
 const Order = mongoose.model('Order', orderSchema);
 
+// --- HEALTH CHECK ROUTE FOR CRON JOB ---
+app.get('/api/ping', (req, res) => {
+    res.status(200).json({ message: "Server is awake!" });
+});
+
 // --- API ROUTES ---
 
 app.get('/api/products', async (req, res) => {
